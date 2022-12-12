@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>eDanmu</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
+
+    body {
+      margin: 0px;
+      overflow: hidden;
+      background-color: transparent !important;
+      font-family: 'Noto Sans TC';
+      font-size: 28px;
+      color: #fff;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      text-shadow: -2px -2px #000000, -2px -1px #000000, -2px 0px #000000, -2px 1px #000000, -2px 2px #000000, -1px -2px #000000, -1px -1px #000000, -1px 0px #000000, -1px 1px #000000, -1px 2px #000000, 0px -2px #000000, 0px -1px #000000, 0px 0px #000000, 0px 1px #000000, 0px 2px #000000, 1px -2px #000000, 1px -1px #000000, 1px 0px #000000, 1px 1px #000000, 1px 2px #000000, 2px -2px #000000, 2px -1px #000000, 2px 0px #000000, 2px 1px #000000, 2px 2px #000000;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-12">
+        <div id="result"></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const TELEGRAM_API = "https://api.telegram.org/bot"; // Telegram BOT API endpoint
+    const API_KEY = "1234567890:ABCd-eFghIjK_lmN_opq-rstuvwxyz12345"; // Your Telegram BOT token
+    const BOT_USERNAME = "@xxxxxx_bot"; // Your BOT username (e.g. @telegram_chat_bot)
+    const GROUP_ID = "-1000000008964"; // Your Telegram Group ID
+    const DANMU_MODE = 1; // 0=tag mode (will auto remove your bot username); 1=all
+    const DANMU_LIMIT = 1; // Limits the number of messages to be retrieved
+    $update_id = 0;
+
+    function tg(method) {
+      $.post(TELEGRAM_API + API_KEY + "/" + method, { "offset": $update_id, "limit": DANMU_LIMIT, "timeout": 0 }, function (data) {
+        if (method == "getUpdates") {
+          if (data.result) {
+            $.each(data.result, function (index, value) {
+              if (value.message) {
+                if (value.message.chat.id == GROUP_ID) {
+                  if (value.message.text) {
+                    if (DANMU_MODE == 0) {
+                      value.message.text = value.message.text.replace(BOT_USERNAME + " ", "");
+                    }
+                    $("#result").append(value.message.text);
+                    $("#result").append("<br>");
+                  }
+                }
+              }
+              $update_id = value.update_id + 1;
+            });
+          }
+        }
+      });
+    }
+
+    tg("getUpdates");
+    setInterval(function () {
+      tg("getUpdates");
+      $("#result").html("");
+    }, 10000);
+  </script>
+</body>
+
+</html>
