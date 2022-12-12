@@ -38,12 +38,12 @@ These instructions will get you a copy of the project up and running on your loc
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
-We use [SemVer](https://semver.org/) for versioning. For the versions available, see the [tags on this repository](tags).
+We use [SemVer](https://semver.org/) for versioning. For the versions available, see the [tags on this repository](../../tags).
 
 ## Authors
 * **HKLCF** - *Initial work* - [HKLCF](https://github.com/hklcf)
 
-See also the list of [contributors](contributors) who participated in this project.
+See also the list of [contributors](../../contributors) who participated in this project.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
